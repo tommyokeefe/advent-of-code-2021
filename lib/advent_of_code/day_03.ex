@@ -41,13 +41,13 @@ defmodule AdventOfCode.Day03 do
     Enum.reverse(result)
   end
 
-  def line_reducer([{1, 0} | items], [current_sum | sums], result) do
-    total = [{elem(current_sum, 0) + 1, elem(current_sum, 1)} | result]
+  def line_reducer([{1, 0} | items], [{zeros, ones} | sums], result) do
+    total = [{zeros + 1, ones} | result]
     line_reducer(items, sums, total)
   end
 
-  def line_reducer([{0, 1} | items], [current_sum | sums], result) do
-    total = [{elem(current_sum, 0), elem(current_sum, 1) + 1} | result]
+  def line_reducer([{0, 1} | items], [{zeros, ones} | sums], result) do
+    total = [{zeros, ones + 1} | result]
     line_reducer(items, sums, total)
   end
 
