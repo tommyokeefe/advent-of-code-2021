@@ -1,4 +1,4 @@
-defmodule AdventOfCod2020 do
+defmodule AdventOfCode2020 do
   @moduledoc """
   Documentation for AdventOfCode.
   """

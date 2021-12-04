@@ -3,7 +3,7 @@ defmodule AdventOfCode2020.Day01Test do
 
   import AdventOfCode2020.Day01
 
-  # @tag :skip
+  @tag :skip
   test "part1" do
     input = """
     1721
@@ -19,7 +19,7 @@ defmodule AdventOfCode2020.Day01Test do
     assert result == 514_579
   end
 
-  # @tag :skip
+  @tag :skip
   test "part2" do
     input = """
     1721
