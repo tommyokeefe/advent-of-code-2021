@@ -1,7 +1,7 @@
 defmodule AdventOfCode.Day03 do
   def part1(args) do
     args
-    |> String.split("\n\n", trim: true)
+    |> String.split("\n", trim: true)
     |> Enum.map(&String.graphemes/1)
     |> Enum.map(&binary_to_tuple/1)
     |> Enum.reduce([], &value_reducer/2)
