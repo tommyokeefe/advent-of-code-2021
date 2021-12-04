@@ -3,103 +3,96 @@ defmodule AdventOfCode.Day03 do
     args
     |> String.split("\n", trim: true)
     |> Enum.map(&String.graphemes/1)
-    |> Enum.map(fn string_list -> Enum.map(string_list, &check_binary_value/1) end)
-    |> Enum.reduce([], &binary_values_reducer/2)
-    |> Enum.reduce(["", ""], &get_gamma_and_epsilon/2)
-    |> get_power_consumption
+    |> Enum.map(&binary_to_tuple/1)
+    |> Enum.reduce([], &value_reducer/2)
+    |> Enum.reduce({"", ""}, &gamma_and_epsilon/2)
+    |> gamma_and_epsilon_to_integer
+    |> Tuple.product()
   end
 
   def part2(args) do
-    binary_as_maps =
+    binary_as_tuples =
       args
       |> String.split("\n", trim: true)
       |> Enum.map(&String.graphemes/1)
-      |> Enum.map(fn string_list -> Enum.map(string_list, &check_binary_value/1) end)
+      |> Enum.map(&binary_to_tuple/1)
 
-    oxygen_rating = get_rating(binary_as_maps, 0, :oxygen)
-    co2_rating = get_rating(binary_as_maps, 0, :co2)
+    oxygen_rating = get_rating(binary_as_tuples, 0, :oxygen)
+    co2_rating = get_rating(binary_as_tuples, 0, :co2)
     oxygen_rating * co2_rating
   end
 
-  def check_binary_value("0") do
-    %{zeros: 1, ones: 0}
+  def binary_to_tuple(list) do
+    Enum.map(list, fn
+      "0" -> {1, 0}
+      "1" -> {0, 1}
+    end)
   end
 
-  def check_binary_value("1") do
-    %{zeros: 0, ones: 1}
-  end
-
-  def binary_values_reducer(list, []) do
+  def value_reducer(list, []) do
     list
   end
 
-  def binary_values_reducer(list, accumulator) do
-    add_binary_values(list, accumulator, [])
+  def value_reducer(list, accumulator) do
+    line_reducer(list, accumulator, [])
   end
 
-  def add_binary_values([], _sums, result) do
+  def line_reducer([], _sums, result) do
     Enum.reverse(result)
   end
 
-  def add_binary_values([current_value | values], [current_sum | sums], result) do
-    total = [
-      %{
-        zeros: current_value.zeros + current_sum.zeros,
-        ones: current_value.ones + current_sum.ones
-      }
-      | result
-    ]
-
-    add_binary_values(values, sums, total)
+  def line_reducer([{1, 0} | items], [current_sum | sums], result) do
+    total = [{elem(current_sum, 0) + 1, elem(current_sum, 1)} | result]
+    line_reducer(items, sums, total)
   end
 
-  def get_gamma_and_epsilon(count, [gamma | [epsilon]]) do
-    cond do
-      count.zeros > count.ones ->
-        ["#{gamma}0", "#{epsilon}1"]
+  def line_reducer([{0, 1} | items], [current_sum | sums], result) do
+    total = [{elem(current_sum, 0), elem(current_sum, 1) + 1} | result]
+    line_reducer(items, sums, total)
+  end
 
-      count.ones > count.zeros ->
-        ["#{gamma}1", "#{epsilon}0"]
+  def gamma_and_epsilon({zeros, ones}, {gamma, epsilon}) do
+    cond do
+      zeros > ones -> {gamma <> "0", epsilon <> "1"}
+      zeros < ones -> {gamma <> "1", epsilon <> "0"}
     end
   end
 
-  def get_power_consumption([gamma | [epsilon]]) do
-    gamma_int = Integer.parse(gamma, 2) |> elem(0)
-    epsilon_int = Integer.parse(epsilon, 2) |> elem(0)
-    gamma_int * epsilon_int
+  def gamma_and_epsilon_to_integer({gamma, epsilon}) do
+    {Integer.parse(gamma, 2) |> elem(0), Integer.parse(epsilon, 2) |> elem(0)}
   end
 
   def get_majority_value(data, location) do
-    [item] =
+    [{zeros, ones}] =
       data
       |> Enum.map(fn item ->
         [Enum.at(item, location)]
       end)
-      |> Enum.reduce([], &binary_values_reducer/2)
+      |> Enum.reduce([], &value_reducer/2)
 
     cond do
-      item.zeros > item.ones -> :zeros
-      item.ones > item.zeros -> :ones
-      item.ones == item.zeros -> :equal
+      zeros > ones -> :zeros
+      ones > zeros -> :ones
+      ones == zeros -> :equal
     end
   end
 
-  def get_rating([result | []], _location, _rating_type) do
+  def get_rating([result | []], _index, _rating_type) do
     result
-    |> Enum.reduce("", fn item, accumulator ->
+    |> Enum.reduce("", fn {zeros, ones}, accumulator ->
       cond do
-        item.zeros == 1 -> "#{accumulator}0"
-        item.ones == 1 -> "#{accumulator}1"
+        zeros == 1 -> "#{accumulator}0"
+        ones == 1 -> "#{accumulator}1"
       end
     end)
     |> Integer.parse(2)
     |> elem(0)
   end
 
-  def get_rating(data, location, rating_type) do
-    value = get_majority_value(data, location)
-    new_data = rating_filter(value, data, location, rating_type)
-    get_rating(new_data, location + 1, rating_type)
+  def get_rating(data, index, rating_type) do
+    value = get_majority_value(data, index)
+    new_data = rating_filter(value, data, index, rating_type)
+    get_rating(new_data, index + 1, rating_type)
   end
 
   def rating_filter(value, data, location, rating_type) do
@@ -110,19 +103,19 @@ defmodule AdventOfCode.Day03 do
     end)
   end
 
-  def matches_rating(:oxygen, value, item) do
+  def matches_rating(:oxygen, value, {zeros, ones}) do
     cond do
-      value == :equal -> item.ones == 1
-      value == :ones -> item.ones == 1
-      value == :zeros -> item.zeros == 1
+      value == :equal -> ones == 1
+      value == :ones -> ones == 1
+      value == :zeros -> zeros == 1
     end
   end
 
-  def matches_rating(:co2, value, item) do
+  def matches_rating(:co2, value, {zeros, ones}) do
     cond do
-      value == :equal -> item.zeros == 1
-      value == :ones -> item.zeros == 1
-      value == :zeros -> item.ones == 1
+      value == :equal -> zeros == 1
+      value == :ones -> zeros == 1
+      value == :zeros -> ones == 1
     end
   end
 end
