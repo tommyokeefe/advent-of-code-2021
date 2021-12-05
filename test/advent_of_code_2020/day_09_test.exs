@@ -1,7 +1,7 @@
-defmodule AdventOfCode2020..Day09Test do
+defmodule AdventOfCode2020.Day09Test do
   use ExUnit.Case
 
-  import AdventOfCode2020..Day09
+  import AdventOfCode2020.Day09
 
   @tag :skip
   test "part1" do
