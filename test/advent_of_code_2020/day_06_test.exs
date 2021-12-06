@@ -28,7 +28,7 @@ defmodule AdventOfCode2020.Day06Test do
     assert result == 11
   end
 
-  # @tag :skip
+  @tag :skip
   test "part2" do
     input = """
     abc
