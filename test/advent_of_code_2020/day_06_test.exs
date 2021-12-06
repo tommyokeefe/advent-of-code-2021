@@ -5,17 +5,51 @@ defmodule AdventOfCode2020.Day06Test do
 
   @tag :skip
   test "part1" do
-    input = nil
+    input = """
+    abc
+
+    a
+    b
+    c
+
+    ab
+    ac
+
+    a
+    a
+    a
+    a
+
+    b
+    """
+
     result = part1(input)
 
-    assert result
+    assert result == 11
   end
 
-  @tag :skip
+  # @tag :skip
   test "part2" do
-    input = nil
+    input = """
+    abc
+
+    a
+    b
+    c
+
+    ab
+    ac
+
+    a
+    a
+    a
+    a
+
+    b
+    """
+
     result = part2(input)
 
-    assert result
+    assert result == 6
   end
 end
