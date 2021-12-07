@@ -12,9 +12,7 @@ defmodule AdventOfCode.Day07 do
   end
 
   def parse(data) do
-    data = Enum.at(String.split(data, "\n"), 0)
-
-    data
+    Enum.at(String.split(data, "\n"), 0)
     |> String.split(",", trim: true)
     |> Enum.map(fn number -> String.to_integer(number) end)
   end
