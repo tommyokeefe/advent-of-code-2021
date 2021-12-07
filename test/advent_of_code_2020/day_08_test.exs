@@ -22,7 +22,7 @@ defmodule AdventOfCode2020.Day08Test do
     assert result == 5
   end
 
-  # @tag :skip
+  @tag :skip
   test "part2" do
     input = """
     nop +0

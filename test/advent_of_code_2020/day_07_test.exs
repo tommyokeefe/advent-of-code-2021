@@ -3,7 +3,7 @@ defmodule AdventOfCode2020.Day07Test do
 
   import AdventOfCode2020.Day07
 
-  # @tag :skip
+  @tag :skip
   test "part1" do
     input = """
     light red bags contain 1 bright white bag, 2 muted yellow bags.
@@ -22,7 +22,7 @@ defmodule AdventOfCode2020.Day07Test do
     assert result == 4
   end
 
-  # @tag :skip
+  @tag :skip
   test "part2" do
     input = """
     shiny gold bags contain 2 dark red bags, 2 dark violet bags.
