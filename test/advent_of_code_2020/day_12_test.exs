@@ -3,7 +3,7 @@ defmodule AdventOfCode2020.Day12Test do
 
   import AdventOfCode2020.Day12
 
-  # @tag :skip
+  @tag :skip
   test "part1" do
     input = """
     F10
