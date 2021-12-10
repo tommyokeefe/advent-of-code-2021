@@ -18,7 +18,7 @@ defmodule AdventOfCode2020.Day12Test do
     assert result == 25
   end
 
-  # @tag :skip
+  @tag :skip
   test "part2" do
     input = """
     F10
@@ -33,6 +33,7 @@ defmodule AdventOfCode2020.Day12Test do
     assert result == 286
   end
 
+  @tag :skip
   test "move_north" do
     state = %{
       direction: "E",
