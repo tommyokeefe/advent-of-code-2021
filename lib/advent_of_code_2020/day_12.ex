@@ -61,10 +61,6 @@ defmodule AdventOfCode2020.Day12 do
   end
 
   def drive_ship_with_waypoint([{direction, value} | input], state) do
-    IO.puts("\nCurrent State:")
-    IO.inspect(state)
-    IO.puts("Next direction: #{direction} #{value}")
-
     case direction do
       "N" -> drive_ship_with_waypoint(input, move_north(value, state))
       "S" -> drive_ship_with_waypoint(input, move_south(value, state))
@@ -77,8 +73,6 @@ defmodule AdventOfCode2020.Day12 do
   end
 
   def drive_ship_with_waypoint([], state) do
-    IO.puts("\nCurrent State:")
-    IO.inspect(state)
     {north_south, _} = Map.get(state, :north_south_ship)
     {east_west, _} = Map.get(state, :east_west_ship)
     north_south + east_west
@@ -208,26 +202,26 @@ defmodule AdventOfCode2020.Day12 do
       {value, ^bearing1} ->
         {distance1 * multiplier + value, bearing1}
 
-      {value, new_bearing} ->
+      {value, ship_bearing} ->
         cond do
           value - distance1 * multiplier > 0 ->
-            {value - distance1 * multiplier, bearing1}
+            {value - distance1 * multiplier, ship_bearing}
 
           true ->
-            {abs(value - distance1 * multiplier), new_bearing}
+            {abs(value - distance1 * multiplier), bearing1}
         end
     end)
     |> Map.update(:east_west_ship, {0, ""}, fn
       {value, ^bearing2} ->
         {distance2 * multiplier + value, bearing2}
 
-      {value, new_bearing} ->
+      {value, ship_bearing} ->
         cond do
           value - distance2 * multiplier > 0 ->
-            {value - distance2 * multiplier, bearing2}
+            {value - distance2 * multiplier, ship_bearing}
 
           true ->
-            {abs(value - distance2 * multiplier), new_bearing}
+            {abs(value - distance2 * multiplier), bearing2}
         end
     end)
   end

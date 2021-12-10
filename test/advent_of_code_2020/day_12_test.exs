@@ -32,22 +32,4 @@ defmodule AdventOfCode2020.Day12Test do
 
     assert result == 286
   end
-
-  @tag :skip
-  test "move_north" do
-    state = %{
-      direction: "E",
-      east_west: {4, "E"},
-      east_west_ship: {214, "E"},
-      left: ["E", "N", "W", "S", "E", "N", "W", "S"],
-      north_south: {10, "S"},
-      north_south_ship: {72, "N"},
-      right: ["E", "S", "W", "N", "E", "S", "W", "N"]
-    }
-
-    result = move_north(20, state)
-    north_south = Map.get(result, :north_south)
-
-    assert north_south == {10, "N"}
-  end
 end
