@@ -1,7 +1,6 @@
 defmodule AdventOfCode.Day11 do
   def part1(args) do
-    build_grid(args)
-    |> run_steps(100)
+    build_grid(args) |> run_steps(100)
   end
 
   def part2(args) do
@@ -45,25 +44,15 @@ defmodule AdventOfCode.Day11 do
   end
 
   def run_step(grid) do
-    keys =
-      Map.keys(grid)
-      |> Enum.sort()
+    keys = Map.keys(grid) |> Enum.sort()
 
-    increase_energy_levels(grid, keys)
-    |> run_flashes(keys)
-  end
-
-  def increase_energy_levels(grid, keys) do
     Enum.reduce(keys, grid, fn key, grid ->
       {_, grid} =
         Map.get_and_update(grid, key, fn energy_level -> {energy_level, energy_level + 1} end)
 
       grid
     end)
-  end
-
-  def run_flashes(grid, keys) do
-    Enum.map(grid, fn {key, value} -> {key, {value, false}} end)
+    |> Enum.map(fn {key, value} -> {key, {value, false}} end)
     |> Map.new()
     |> check_flashes(keys)
     |> count_flashes(keys)
@@ -124,26 +113,22 @@ defmodule AdventOfCode.Day11 do
         grid
       end)
 
-    grid
-    |> check_flashes(neighbors)
+    check_flashes(grid, neighbors)
   end
 
   def get_neighbors({c, r}) do
-    [
-      {c - 1, r - 1},
-      {c - 1, r},
-      {c - 1, r + 1},
-      {c, r - 1},
-      {c, r + 1},
-      {c + 1, r - 1},
-      {c + 1, r},
-      {c + 1, r + 1}
-    ]
-    |> Enum.filter(fn {c, r} ->
-      cond do
-        c >= 0 and c <= 9 and r >= 0 and r <= 9 -> true
-        true -> false
-      end
-    end)
+    Enum.filter(
+      [
+        {c - 1, r - 1},
+        {c - 1, r},
+        {c - 1, r + 1},
+        {c, r - 1},
+        {c, r + 1},
+        {c + 1, r - 1},
+        {c + 1, r},
+        {c + 1, r + 1}
+      ],
+      fn {c, r} -> c >= 0 and c <= 9 and r >= 0 and r <= 9 end
+    )
   end
 end
