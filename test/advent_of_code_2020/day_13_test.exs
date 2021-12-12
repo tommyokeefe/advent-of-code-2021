@@ -5,17 +5,25 @@ defmodule AdventOfCode2020.Day13Test do
 
   @tag :skip
   test "part1" do
-    input = nil
+    input = """
+    939
+    7,13,x,x,59,x,31,19
+    """
+
     result = part1(input)
 
-    assert result
+    assert result == 295
   end
 
   @tag :skip
   test "part2" do
-    input = nil
+    input = """
+    939
+    7,13,x,x,59,x,31,19
+    """
+
     result = part2(input)
 
-    assert result
+    assert result == 1_068_781
   end
 end
