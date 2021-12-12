@@ -22,15 +22,14 @@ defmodule AdventOfCode.Day11 do
     end)
   end
 
-  def run_steps(grid, count) do
-    {_, total} =
-      Enum.to_list(1..count)
-      |> Enum.reduce({grid, 0}, fn _, {grid, total} ->
-        {subtotal, grid} = run_step(grid)
-        {grid, total + subtotal}
-      end)
+  def run_steps(grid, count, total \\ 0) do
+    count = count - 1
+    {subtotal, grid} = run_step(grid)
 
-    total
+    cond do
+      count > 0 -> run_steps(grid, count, total + subtotal)
+      true -> total + subtotal
+    end
   end
 
   def run_steps_until(grid, grid_size, run_count \\ 0) do
@@ -38,8 +37,8 @@ defmodule AdventOfCode.Day11 do
     {flashes, grid} = run_step(grid)
 
     cond do
-      flashes == grid_size -> run_count
-      true -> run_steps_until(grid, grid_size, run_count)
+      flashes != grid_size -> run_steps_until(grid, grid_size, run_count)
+      true -> run_count
     end
   end
 
