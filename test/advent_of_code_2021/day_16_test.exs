@@ -5,10 +5,10 @@ defmodule AdventOfCode.Day16Test do
 
   @tag :skip
   test "part1" do
-    input = nil
+    input = "A0016C880162017C3686B18A3D4780"
     result = part1(input)
 
-    assert result
+    assert result == 31
   end
 
   @tag :skip
