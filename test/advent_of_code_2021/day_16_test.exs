@@ -3,19 +3,24 @@ defmodule AdventOfCode.Day16Test do
 
   import AdventOfCode.Day16
 
-  @tag :skip
+  # @tag :skip
   test "part1" do
-    input = "A0016C880162017C3686B18A3D4780"
+    input = """
+    620080001611562C8802118E34
+    """
     result = part1(input)
 
-    assert result == 31
+    assert result == 12
   end
 
-  @tag :skip
+  # @tag :skip
   test "part2" do
-    input = nil
+    input = """
+    9C0141080250320F1802104A08
+    """
+
     result = part2(input)
 
-    assert result
+    assert result == 1
   end
 end
