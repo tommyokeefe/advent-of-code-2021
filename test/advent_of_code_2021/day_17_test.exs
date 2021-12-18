@@ -3,7 +3,7 @@ defmodule AdventOfCode.Day17Test do
 
   import AdventOfCode.Day17
 
-  #@tag :skip
+  @tag :skip
   test "part1" do
     input = """
     target area: x=20..30, y=-10..-5
@@ -13,7 +13,7 @@ defmodule AdventOfCode.Day17Test do
     assert result == {6, 9}
   end
 
-  #@tag :skip
+  @tag :skip
   test "part2" do
     input = """
     target area: x=20..30, y=-10..-5
