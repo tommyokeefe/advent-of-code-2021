@@ -3,7 +3,7 @@ defmodule AdventOfCode.Day16Test do
 
   import AdventOfCode.Day16
 
-  # @tag :skip
+  @tag :skip
   test "part1" do
     input = """
     620080001611562C8802118E34
@@ -13,7 +13,7 @@ defmodule AdventOfCode.Day16Test do
     assert result == 12
   end
 
-  # @tag :skip
+  @tag :skip
   test "part2" do
     input = """
     9C0141080250320F1802104A08
